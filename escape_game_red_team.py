@@ -221,7 +221,7 @@ def explore_room(room):
     Explore a room. List all items belonging to this room.
     """
     items = [i["name"] for i in object_relations[room["name"]]]
-    print('\033[34m' + '\033[1m'"You explore the room. This is " + room["name"] + ". '\033[34m' + '\033[1m'You find " + ", ".join(items))
+    print('\033[34m' + '\033[1m'"You explore the room. This is " + room["name"] + ". "'\033[34m' + '\033[1m'"You find " + ", ".join(items))
 
 def get_next_room_of_door(door, current_room):
     """
