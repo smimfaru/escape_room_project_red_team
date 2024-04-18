@@ -1,12 +1,13 @@
 from playsound import playsound
 import images
+import os
 from os import environ
-environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
+environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1' ##hide advertisement
 from pygame import mixer
 mixer.init()
 mixer.music.load("drammatic_main_sound.mp3")
-mixer.music.set_volume(0.1)
-mixer.music.play(loops=-1)
+mixer.music.set_volume(0.1) 
+mixer.music.play(loops=-1) ##non-stop music
 
 
 # define rooms and items
@@ -37,6 +38,31 @@ dining_table = {
 
 piano = {
     "name": "piano",
+    "type": "furniture",
+}
+
+bookshelf = {
+    "name": "bookshelf",
+    "type": "furniture",
+}
+
+nightstand = {
+    "name": "nightstand",
+    "type": "furniture",
+}
+
+lamp = {
+    "name": "lamp",
+    "type": "furniture",
+}
+
+dressing_table ={
+    "name": "dressing table",
+    "type": "furniture",
+}
+
+carpet = {
+    "name": "carpet",
     "type": "furniture",
 }
 
@@ -117,10 +143,10 @@ all_keys = [key_a, key_b, key_c, key_d]
 # define which items/rooms are related
 
 object_relations = {
-    "game room":[couch, piano, door_a],
-    "bedroom 1":[door_a, door_b, door_c, queen_bed],
-    "bedroom 2":[door_b, double_bed, dresser],
-    "living room":[door_c, dining_table,door_d],
+    "game room":[couch, piano, bookshelf, door_a],
+    "bedroom 1":[door_a, door_b, door_c, queen_bed, dressing_table],
+    "bedroom 2":[door_b, double_bed, dresser, nightstand, lamp],
+    "living room":[door_c, dining_table, carpet, door_d],
     "outside":[door_d],
     "door a":[game_room, bedroom_1],
     "door b":[bedroom_1,bedroom_2],
@@ -138,7 +164,8 @@ object_relations = {
 # way you can replay the game multiple times.
 
 INIT_GAME_STATE = {
-    "current_room": game_room,
+    # "current_room": game_room,
+    "current_room": '',
     "keys_collected": [],
     "target_room": outside
 }
@@ -156,12 +183,10 @@ def start_game():
     """
     print(images.start)
 
-    #main drammatic sound
-    # playsound("drammatic_main_sound.mp3", False)
-
-    ##applied \n for alignment
+    #applied \n for alignment
     print("You wake up on a couch and find yourself in a strange house with no windows which you have never been to before.\nYou don't remember why you are here and what had happened before.\nYou feel some unknown danger is approaching and you must get out of the house, NOW!")
-    play_room(game_state["current_room"])
+    # play_room(game_state["current_room"])
+    play_room(game_room)
     
 
 def play_room(room):
@@ -170,19 +195,23 @@ def play_room(room):
     If it is, the game will end with success. Otherwise, let player either 
     explore (list all items in this room) or examine an item found here.
     """
+    previous_room = game_state["current_room"] # new variable in order to remove repitining message in which room you are 
     game_state["current_room"] = room
     if(game_state["current_room"] == game_state["target_room"]):
         print("Congrats! You escaped the room!")
+        print("Please press enter to exit") #final message
+        input() #this input for staying in game when you reached outside
     else:
-        print("You are now in " + room["name"])
-        intended_action = input("What would you like to do? Type 'explore' or 'examine'?").strip()
-        if intended_action == "explore":
+        if previous_room != game_state["current_room"]: #removed every time message in which room you are 
+            print("You are now in " + room["name"])
+        intended_action = input("What would you like to do? Type 1 to explore or 2 to examine? ").strip() #changed wordind on 1 or 2 for user convinience
+        if intended_action == '1':
             explore_room(room)
             play_room(room)
-        elif intended_action == "examine":
-            examine_item(input("What would you like to examine?").strip())
+        elif intended_action == '2':
+            examine_item(input("What would you like to examine? ").strip())
         else:
-            print("Not sure what you mean. Type 'explore' or 'examine'.")
+            print("Not sure what you mean. Type 1 to explore or 2 to examine. ") 
             play_room(room)
         linebreak()
 
@@ -246,6 +275,7 @@ def examine_item(item_name):
         print("The item you requested is not found in the current room.")
     
     if(next_room and input("Do you want to go to the next room? Ener 'yes' or 'no'").strip() == 'yes'):
+        os.system('cls') ##clear console 
         play_room(next_room)
     else:
         play_room(current_room)
