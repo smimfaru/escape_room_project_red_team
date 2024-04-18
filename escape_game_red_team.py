@@ -184,7 +184,8 @@ def start_game():
     print(images.start)
 
     #applied \n for alignment
-    print("You wake up on a couch and find yourself in a strange house with no windows which you have never been to before.\nYou don't remember why you are here and what had happened before.\nYou feel some unknown danger is approaching and you must get out of the house, NOW!")
+    BLUE    = '\033[34m'
+    print(BLUE + '\033[1m'"You wake up on a couch and find yourself in a strange house with no windows which you have never been to before.\nYou don't remember why you are here and what had happened before.\nYou feel some unknown danger is approaching and you must get out of the house, NOW!")
     # play_room(game_state["current_room"])
     play_room(game_room)
     
@@ -198,20 +199,20 @@ def play_room(room):
     previous_room = game_state["current_room"] # new variable in order to remove repitining message in which room you are 
     game_state["current_room"] = room
     if(game_state["current_room"] == game_state["target_room"]):
-        print("Congrats! You escaped the room!")
-        print("Please press enter to exit") #final message
+        print('\033[34m' + '\033[1m'"Congrats! You escaped the room!")
+        print('\033[34m' + '\033[1m'"Please press enter to exit") #final message
         input() #this input for staying in game when you reached outside
     else:
         if previous_room != game_state["current_room"]: #removed every time message in which room you are 
-            print("You are now in " + room["name"])
-        intended_action = input("What would you like to do? Type 1 to explore or 2 to examine? ").strip() #changed wordind on 1 or 2 for user convinience
+            print('\033[34m' + '\033[1m'"You are now in " + room["name"])
+        intended_action = input('\033[34m' + '\033[1m'"What would you like to do? Type 1 to explore or 2 to examine? ").strip() #changed wordind on 1 or 2 for user convinience
         if intended_action == '1':
             explore_room(room)
             play_room(room)
         elif intended_action == '2':
-            examine_item(input("What would you like to examine? ").strip())
+            examine_item(input('\033[34m' + '\033[1m'"What would you like to examine? ").strip())
         else:
-            print("Not sure what you mean. Type 1 to explore or 2 to examine. ") 
+            print('\033[34m' + '\033[1m'"Not sure what you mean. Type 1 to explore or 2 to examine. ") 
             play_room(room)
         linebreak()
 
@@ -220,7 +221,7 @@ def explore_room(room):
     Explore a room. List all items belonging to this room.
     """
     items = [i["name"] for i in object_relations[room["name"]]]
-    print("You explore the room. This is " + room["name"] + ". You find " + ", ".join(items))
+    print('\033[34m' + '\033[1m'"You explore the room. This is " + room["name"] + ". '\033[34m' + '\033[1m'You find " + ", ".join(items))
 
 def get_next_room_of_door(door, current_room):
     """
@@ -256,25 +257,25 @@ def examine_item(item_name):
                     if(key["target"] == item):
                         have_key = True
                 if(have_key):
-                    output += "You unlock it with a key you have."
+                    output +='\033[34m' + '\033[1m' "You unlock it with a key you have."
                     playsound('sound_opening_door.mp3') ###sound of door
                     next_room = get_next_room_of_door(item, current_room)
                 else:
-                    output += "It is locked but you don't have the key."
+                    output +='\033[34m' + '\033[1m' "It is locked but you don't have the key."
             else:
                 if(item["name"] in object_relations and len(object_relations[item["name"]])>0):
                     item_found = object_relations[item["name"]].pop()
                     game_state["keys_collected"].append(item_found)
-                    output += "You find " + item_found["name"] + "."
+                    output += '\033[34m' + '\033[1m'"You find " + item_found["name"] + "."
                 else:
-                    output += "There isn't anything interesting about it."
+                    output += '\033[34m' + '\033[1m'"There isn't anything interesting about it."
             print(output)
             break
 
     if(output is None):
-        print("The item you requested is not found in the current room.")
+        print('\033[34m' + '\033[1m'"The item you requested is not found in the current room.")
     
-    if(next_room and input("Do you want to go to the next room? Ener 'yes' or 'no'").strip() == 'yes'):
+    if(next_room and input('\033[34m' + '\033[1m'"Do you want to go to the next room? Ener 'yes' or 'no'").strip() == 'yes'):
         os.system('cls') ##clear console 
         play_room(next_room)
     else:
