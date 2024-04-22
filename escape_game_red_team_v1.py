@@ -163,10 +163,10 @@ object_relations = {
     "door b":[bedroom_1,bedroom_2],
     "door c":[bedroom_1,living_room],
     "door d":[living_room, outside],
-    "piano":[key_a],
-    "double bed":[key_c],
-    "dresser":[key_d],
-    "queen bed":[key_b]
+    #"piano":[key_a],
+    #"double bed":[key_c],
+    #"dresser":[key_d],
+    #"queen bed":[key_b]
 }
 
 room_key_relation = {
@@ -212,6 +212,7 @@ def quiz(door_name):
             if question["answer"] == user_answer:
                 question["used"] = True
                 print(RESET + "Correct!" + BLUE)
+                time.sleep(1)
                 break
             else:
                 print("Wrong answer! Please try again")
@@ -297,7 +298,7 @@ def play_room(room):
         print(f"{BLUE}\033[1m{user_name}, congrats! You escaped the room!\nYour time result: {RESET}{diff_time}{BLUE} sec.")
         print(RESET + images2.congrats + BLUE)
         new_record_data = {"Name" : user_name, "Time" : diff_time }
-        write_new_record_to_file(new_record_data, "score_board.json" + BLUE)
+        write_new_record_to_file(new_record_data, "score_board.json")
         print(RESET + '\033[1m'"          ***Leaders board***         \n")
         players_list_time()
         print('\033[34m' + '\033[1m'"Please press enter to exit") #final message
@@ -468,7 +469,7 @@ def players_list_time():
 
 game_state = INIT_GAME_STATE.copy()
 
-#fill_random_items_with_key()
+fill_random_items_with_key()
 os.system('cls') ##clear console 
 start_game()
 
