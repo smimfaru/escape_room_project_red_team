@@ -12,7 +12,7 @@ environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1' ##hide advertisement
 from pygame import mixer
 mixer.init()
 mixer.music.load("drammatic_main_sound.mp3")
-mixer.music.set_volume(0.1) 
+mixer.music.set_volume(0.0) 
 mixer.music.play(loops=-1) ##non-stop music
 
 
@@ -163,10 +163,10 @@ object_relations = {
     "door b":[bedroom_1,bedroom_2],
     "door c":[bedroom_1,living_room],
     "door d":[living_room, outside],
-    "piano":[key_a],
-    "double bed":[key_c],
-    "dresser":[key_d],
-    "queen bed":[key_b]
+    #"piano":[key_a],
+    #"double bed":[key_c],
+    #"dresser":[key_d],
+    #"queen bed":[key_b]
 }
 
 room_key_relation = {
@@ -475,7 +475,7 @@ def players_list_time():
 
 game_state = INIT_GAME_STATE.copy()
 
-#fill_random_items_with_key()
+fill_random_items_with_key()
 os.system('cls') ##clear console 
 start_game()
 
